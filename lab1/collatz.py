@@ -24,26 +24,27 @@ Challenge: Same question, but for any starting number under 1,000,000 (you may n
 
 Solution: I took a dynamic programming approach with the following results:
 
-(n=1000) 178
-(n=1000000) 524
+(n=1000) 194
+(n=1000000) 557
 
 The 1,000,000 case took about a minute to compute on my laptop.
 """
 
 collatz_lengths = {}
 
-def get_collatz_length(n):
-    num_steps = 0
+def get_collatz_length(n_argument):
+    num_steps = 1
+    n = n_argument
     while (n != 1):
         if n in collatz_lengths:
-            num_steps = num_steps + collatz_lengths
+            num_steps = num_steps + collatz_lengths[n]
             break
         if n % 2 == 0:
             n = n / 2
         else:
             n = 3*n + 1
         num_steps = num_steps + 1
-    collatz_lengths[n] = num_steps
+    collatz_lengths[n_argument] = num_steps
     return num_steps
 
 def get_max_chain(n):
