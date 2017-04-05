@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
 File: tictactoe2.py
+
+Problem: Print an Ultimate Tic-Tac-Toe board
 """
 
-dub_space = "  "
-three_square = "|".join([dub_space, dub_space, dub_space])
+three_square = "|".join(["  ", "  ", "  "])
 row_square = "H".join([three_square, three_square, three_square])
 row_divider = row_square.replace(" ","-").replace("|","+")
 grid_divider = row_square.replace(" ","=").replace("|","=").replace("H","+")

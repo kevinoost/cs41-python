@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
 """
 File: tictactoe1.py
+
+Problem: print a Tic-Tac-Toe grid
+
+Eager to see more elegant solutions.
 """
 
-dubspace = "  "
+squareline = "|".join(["  ", "  ", "  "])
+divider = "\n{}\n".format("-"*8)
+print(divider.join([squareline, squareline, squareline]))
 
-def print_squares():
-    print(dubspace, dubspace, dubspace, sep="|")
-    return
 
-print_squares()
-print("-"*8)
-print_squares()
-print("-"*8)
-print_squares()

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
 File: fizzbuzzfizzbuzz.py
+
+Problem: Find the sum of all the multiples of 3 or 5 below 1001.
 """
 
 def sum_all_3s_and_5s_under_n(n):
