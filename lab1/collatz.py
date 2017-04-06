@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+sho#!/usr/bin/env python3
 """
 File: collatz.py
 
@@ -20,6 +20,8 @@ What is the length of the longest chain which has a starting number under 1000?
 
 Challenge: Same question, but for any starting number under 1,000,000 (you may need to implement a cleverer-than-naive algorithm)
 
+Note: There's still room for further optimization. Current solution does not cache every collatz computation it performs. There's is a superior recursive solution.
+
 ======================================================================
 
 Solution: I took a dynamic programming approach with the following results:
@@ -27,7 +29,7 @@ Solution: I took a dynamic programming approach with the following results:
 (n=1000) 194
 (n=1000000) 557
 
-The 1,000,000 case took about a minute to compute on my laptop.
+The 1,000,000 case took about three seconds to compute on my laptop.
 """
 
 collatz_lengths = {}
