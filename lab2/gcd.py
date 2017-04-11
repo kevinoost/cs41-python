@@ -18,4 +18,4 @@ def gcd(a, b):
     return a
 
 def gcd_clever(a, b):
-    a if b % a == 0 else gcd(b % a, a)
+    return a if b % a == 0 else gcd_clever(b % a, a)
