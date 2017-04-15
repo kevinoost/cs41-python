@@ -84,7 +84,8 @@ class SimpleGraph:
                 return True
             else:
                 edges_left.extend([edge for edge in nextVisited.edges
-                                   if edge.start == nextVisited and not edge.visited])
+                                   if edge.start == nextVisited
+                                   and not edge.visited])
         self.clear_all()
         return False
     def is_bipartite(self):
@@ -105,7 +106,8 @@ class SimpleGraph:
                     v.color = "red"
                 elif v.color == "gray" and par_color == "red":
                     v.color = "black"
-                neighbors = [e.start if e.start != v else e.end for e in v.edges]
+                neighbors = [e.start if e.start != v else e.end
+                             for e in v.edges]
                 for neighbor in neighbors:
                     if neighbor.color == v.color:
                         self.clear_all()
@@ -115,106 +117,5 @@ class SimpleGraph:
         self.clear_all()
         return True
 
-"""
-from graph import SimpleGraph
-from graph import Vertex
-from graph import Edge
-"""
 
-g = SimpleGraph()
-assert g.is_empty()
-
-a = Vertex('a')
-b = Vertex('b')
-c = Vertex('c')
-d = Vertex('d')
-e = Vertex('e')
-f = Vertex('f')
-
-g.add_vertex(a)
-assert not g.is_empty()
-
-g.add_vertex(b)
-g.add_vertex(c)
-g.add_vertex(d)
-g.add_vertex(e)
-
-assert g.contains_vertex(a)
-assert not g.contains_vertex(f)
-
-g.add_edge(a, b)
-g.add_edge(a, e)
-g.remove_edge(a, e)
-assert g.size() == (5, 1)
-
-g.add_edge(a, b)
-assert g.size() == (5, 1)
-
-g.add_edge(b, c)
-g.add_edge(c, b)
-g.add_edge(c, d)
-
-b_neighbors = g.get_neighbors(b)
-assert len(b_neighbors) == 2
-assert a in b_neighbors
-assert c in b_neighbors
-
-assert g.is_neighbor(a, b)
-assert not g.is_neighbor(a, d)
-assert all([not g.is_neighbor(e, v) for v in g.verts])
-
-assert g.is_reachable(a, d)
-assert g.is_reachable(a, d)
-
-assert not g.is_reachable(d, a)
-assert not g.is_reachable(a, e)
-
-g.remove_vertex(b)
-assert g.size() == (4, 1)
-
-b = SimpleGraph()
-l1 = Vertex('l1')
-l2 = Vertex('l2')
-l3 = Vertex('l3')
-l4 = Vertex('l4')
-r1 = Vertex('r1')
-r2 = Vertex('r2')
-r3 = Vertex('r3')
-
-b.add_vertex(l1)
-b.add_vertex(l2)
-b.add_vertex(l3)
-b.add_vertex(l4)
-b.add_vertex(r1)
-b.add_vertex(r2)
-b.add_vertex(r3)
-b.add_edge(l1, r1)
-b.add_edge(l1, r2)
-b.add_edge(l1, r3)
-b.add_edge(l2, r1)
-b.add_edge(l2, r2)
-b.add_edge(l2, r3)
-b.add_edge(l3, r1)
-b.add_edge(l3, r2)
-b.add_edge(l3, r3)
-b.add_edge(l4, r1)
-b.add_edge(l4, r2)
-b.add_edge(l4, r3)
-
-assert b.is_bipartite()
-bl1 = Vertex('bl1')
-bl2 = Vertex('bl2')
-br1 = Vertex('br1')
-b.add_vertex(bl1)
-b.add_vertex(bl2)
-b.add_vertex(br1)
-b.add_edge(bl1, br1)
-b.add_edge(bl2, br1)
-assert b.is_bipartite()
-
-c1 = Vertex('c1')
-b.add_vertex(c1)
-b.add_edge(l1, c1)
-b.add_edge(r1, c1)
-assert not b.is_bipartite()
 
