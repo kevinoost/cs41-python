@@ -1,7 +1,8 @@
 #!/usr/bin/env python3 -tt
+import math
 
 class Vertex:
-    def __init__(self, name="",color="gray"):
+    def __init__(self, name="",color="gray",visited=False):
         self.name = name
         self.edges = set()
         self.color = color
@@ -25,21 +26,20 @@ class Edge:
 class SimpleGraph:
     def __init__(self):
         self.verts = set()
-        self.edges = set()
+        self.edges = {}
     def __str__(self):
         return "{} {}".format(str(self.verts), str(self.edges))
     def __repr__(self):
         return str(self)
     def add_vertex(self, v):
         self.verts.add(v)
-    def add_edge(self, v1, v2):
-        for edge in self.edges:
-            if edge.start == v1 and edge.end == v2:
-                return
-        edge = Edge(v1, v2)
+    def add_edge(self, v1, v2, cost=1.0):
+        if (v1, v2) in self.edges:
+            return
+        edge = Edge(v1, v2, cost)
         v1.edges.add(edge)
         v2.edges.add(edge)
-        self.edges.add(edge)
+        self.edges[(v1, v2)] = edge
     def contains_vertex(self, v):
         return v in self.verts
     def get_neighbors(self, v):
@@ -54,7 +54,7 @@ class SimpleGraph:
     def remove_vertex(self, v):
         edge_list = list(v.edges)
         for edge in edge_list:
-            self.remove_edge(edge.start,edge.end)
+            self.remove_edge(edge.start, edge.end)
         self.verts.remove(v)
     def remove_edge(self, v1, v2):
         for edge in v1.edges:
@@ -63,14 +63,15 @@ class SimpleGraph:
                 break
         v1.edges.remove(target_edge)
         v2.edges.remove(target_edge)
-        self.edges.remove(target_edge)
+        del self.edges[(v1, v2)]
     def is_neighbor(self, v1, v2):
         return any([edge.start == v2 or edge.end == v2 for edge in v1.edges])
     def clear_all(self):
-        for edge in self.edges:
+        for edge in self.edges.values():
             edge.visited = False
         for vert in self.verts:
             vert.color = "gray"
+            vert.visited = False
     def is_reachable(self, v1, v2):
         edges_left = [edge for edge in v1.edges if edge.start == v1]
         while len(edges_left) > 0:
@@ -116,6 +117,28 @@ class SimpleGraph:
                         stack.append((v.color, neighbor))
         self.clear_all()
         return True
+    def dijkstras_algorithm(self, source, dest):
+        distances = {vert: (math.inf, None) for vert in self.verts}
+        distances[source] = (0.0, None)
+        current = source
+        unvisited = set(self.verts)
+        while True:
+            unvisited_neighbors = [u for u in self.get_neighbors(current)
+                                   if u.visited == False]
+            for neighbor in unvisited_neighbors:
+                tentative_distance = distances[current] + self.edges[(current,neighbor)].cost
+                if tentative_distance < distances[neighbor][0]:
+                    distances[neighbor] = (tentative_distance, current)
+            current.visited = True
+            unvisited.remove(current)
+            if dest.visited or all([distances[w][0] == math.inf for w in unvisited]):
+                break
+            unvisited_dists = [(w, distances[w][0]) for w in unvisited]
+            current = min(unvisited_dists, key = lambda t: t[1])[0]
+        if distances[dest] == math.inf:
+            print("No path from {} to {}, :(".format(source.name, dest.name))
+        else:
+            print("Distance of {} from {} to {}".format(distances[dest][0], source.name, dest.name))
 
 
 
