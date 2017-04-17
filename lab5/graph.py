@@ -6,6 +6,7 @@ class Vertex:
         self.name = name
         self.edges = set()
         self.color = color
+        self.visited = visited
     def __str__(self):
         return "[name={}, edges={}, color={}]".format(self.name, str(self.edges), self.color)
     def __repr__(self):
@@ -126,7 +127,7 @@ class SimpleGraph:
             unvisited_neighbors = [u for u in self.get_neighbors(current)
                                    if u.visited == False]
             for neighbor in unvisited_neighbors:
-                tentative_distance = distances[current] + self.edges[(current,neighbor)].cost
+                tentative_distance = distances[current][0] + self.edges[(current,neighbor)].cost
                 if tentative_distance < distances[neighbor][0]:
                     distances[neighbor] = (tentative_distance, current)
             current.visited = True
@@ -135,10 +136,12 @@ class SimpleGraph:
                 break
             unvisited_dists = [(w, distances[w][0]) for w in unvisited]
             current = min(unvisited_dists, key = lambda t: t[1])[0]
-        if distances[dest] == math.inf:
-            print("No path from {} to {}, :(".format(source.name, dest.name))
+        if distances[dest][0] == math.inf:
+            return (math.inf, [])
         else:
-            print("Distance of {} from {} to {}".format(distances[dest][0], source.name, dest.name))
-
-
-
+            path = [dest]
+            curr = dest
+            while curr != source:
+                curr = distances[curr][1]
+                path[0:0] = [curr]
+            return (distances[dest][0], path)
