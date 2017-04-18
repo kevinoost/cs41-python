@@ -137,6 +137,7 @@ class SimpleGraph:
             unvisited_dists = [(w, distances[w][0]) for w in unvisited]
             current = min(unvisited_dists, key = lambda t: t[1])[0]
         if distances[dest][0] == math.inf:
+            self.clear_all()
             return (math.inf, [])
         else:
             path = [dest]
@@ -144,4 +145,5 @@ class SimpleGraph:
             while curr != source:
                 curr = distances[curr][1]
                 path[0:0] = [curr]
+            self.clear_all()
             return (distances[dest][0], path)
