@@ -46,7 +46,8 @@ class SimpleGraph:
     def get_neighbors(self, v):
         candidates = set([edge.start for edge in v.edges])
         candidates.update([edge.end for edge in v.edges])
-        candidates.remove(v)
+        if v in candidates:
+            candidates.remove(v)
         return candidates
     def is_empty(self):
         return self.size() == (0, 0)
@@ -147,3 +148,25 @@ class SimpleGraph:
                 path[0:0] = [curr]
             self.clear_all()
             return (distances[dest][0], path)
+    def largest_connected_component(self):
+        verts = set(self.verts)
+        if len(verts) == 0:
+            return 0
+        sizesOfAllComponents = []
+        while len(verts) > 0:
+            v = verts.pop()
+            vertsInComponent = [v]
+            sizeOfCurrComponent = 0
+            while len(vertsInComponent) > 0:
+                v = vertsInComponent.pop(0)
+                if v in verts:
+                    verts.remove(v)
+                sizeOfCurrComponent += 1
+                v.visited = True
+                unvisited_neighbors = [u for u in self.get_neighbors(v)
+                                       if u.visited == False]
+                vertsInComponent.extend(unvisited_neighbors)
+            sizesOfAllComponents.append(sizeOfCurrComponent)
+        self.clear_all()
+        return max(sizesOfAllComponents)
+

@@ -51,7 +51,7 @@ class SimpleGraphTests(unittest.TestCase):
         self.g.add_edge(self.a, self.b)
         self.assertTrue(self.g.size() == (5, 4))
         
-    def test_neighbors(self):
+    def test_get_neighbors(self):
         b_neighbors = self.g.get_neighbors(self.b)
         self.assertTrue(len(b_neighbors) == 2)
         self.assertTrue(self.a in b_neighbors)
@@ -59,6 +59,8 @@ class SimpleGraphTests(unittest.TestCase):
         self.assertTrue(self.g.is_neighbor(self.a, self.b))
         self.assertFalse(self.g.is_neighbor(self.a, self.d))
         self.assertTrue(all([not self.g.is_neighbor(self.e, v) for v in self.g.verts]))
+        self.g.add_vertex(self.f)
+        self.assertTrue(len(self.g.get_neighbors(self.f)) == 0)
         
     def test_is_reachable(self):
         self.assertTrue(self.g.is_reachable(self.a, self.d))
@@ -153,9 +155,37 @@ class DijkstrasAlgorithmTests(unittest.TestCase):
         self.assertTrue(
             self.dg.dijkstras_algorithm(self.one, self.disconnected)
             == (math.inf, []))
-suite = unittest.TestLoader().loadTestsFromTestCase(SimpleGraphTests)
-unittest.TextTestRunner(verbosity=2).run(suite)
-suite = unittest.TestLoader().loadTestsFromTestCase(IsBipartiteTests)
-unittest.TextTestRunner(verbosity=2).run(suite)
-suite = unittest.TestLoader().loadTestsFromTestCase(DijkstrasAlgorithmTests)
-unittest.TextTestRunner(verbosity=2).run(suite)
+
+class LargestConnectedComponentTests(unittest.TestCase):
+    def setUp(self):
+        self.cc = SimpleGraph()
+        self.a = Vertex('a')
+        self.b = Vertex('b')
+        self.c = Vertex('c')
+        self.d = Vertex('d')
+        self.e = Vertex('e')
+        self.f = Vertex('f')
+    def test_no_connected_components(self):
+        self.assertTrue(self.cc.largest_connected_component() == 0)
+    def test_single_vertex_cc(self):
+        self.cc.add_vertex(self.a)
+        self.cc.add_vertex(self.b)
+        self.cc.add_vertex(self.c)
+        self.assertTrue(self.cc.largest_connected_component() == 1)
+    def test_cc_of_size_3(self):
+        self.cc.add_vertex(self.a)
+        self.cc.add_vertex(self.b)
+        self.cc.add_vertex(self.c)
+        self.cc.add_vertex(self.d)
+        self.cc.add_vertex(self.e)
+        self.cc.add_vertex(self.f)
+        self.cc.add_edge(self.a, self.b)
+        self.cc.add_edge(self.a, self.c)
+        self.cc.add_edge(self.d, self.e)
+        self.assertTrue(self.cc.largest_connected_component() == 3)
+
+tests = [SimpleGraphTests, IsBipartiteTests, DijkstrasAlgorithmTests, LargestConnectedComponentTests]
+testSuites = [unittest.TestLoader().loadTestsFromTestCase(test) for test in tests]
+alltests = unittest.TestSuite(testSuites)
+unittest.TextTestRunner(verbosity=2).run(alltests)
+
