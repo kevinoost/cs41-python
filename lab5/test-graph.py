@@ -2,6 +2,7 @@
 
 import unittest
 import math
+import sys, inspect
 from graph import SimpleGraph
 from graph import Vertex
 from graph import Edge
@@ -184,8 +185,10 @@ class LargestConnectedComponentTests(unittest.TestCase):
         self.cc.add_edge(self.d, self.e)
         self.assertTrue(self.cc.largest_connected_component() == 3)
 
-tests = [SimpleGraphTests, IsBipartiteTests, DijkstrasAlgorithmTests, LargestConnectedComponentTests]
-testSuites = [unittest.TestLoader().loadTestsFromTestCase(test) for test in tests]
+tests = [obj for (name, obj) in inspect.getmembers(sys.modules[__name__])
+              if inspect.isclass(obj) and 'Test' in name]
+testSuites = [unittest.TestLoader().loadTestsFromTestCase(test)
+              for test in tests]
 alltests = unittest.TestSuite(testSuites)
 unittest.TextTestRunner(verbosity=2).run(alltests)
 

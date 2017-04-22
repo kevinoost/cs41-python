@@ -1,6 +1,7 @@
 #!/usr/bin/env python3 -tt
 from kv_store import *
 import unittest
+import sys, inspect
 
 class SimpleKVStoreTests(unittest.TestCase):
     def setUp(self):
@@ -34,8 +35,10 @@ class SimpleKVStoreTests(unittest.TestCase):
         self.kv.remove("1", self.t2)
         self.assertTrue(len(self.kv.store) == 0)
 
-tests = [SimpleKVStoreTests]
-testSuites = [unittest.TestLoader().loadTestsFromTestCase(test) for test in tests]
+tests = [obj for (name, obj) in inspect.getmembers(sys.modules[__name__])
+              if inspect.isclass(obj) and 'Test' in name]
+testSuites = [unittest.TestLoader().loadTestsFromTestCase(test)
+              for test in tests]
 alltests = unittest.TestSuite(testSuites)
 unittest.TextTestRunner(verbosity=2).run(alltests)
 
