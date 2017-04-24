@@ -1,5 +1,6 @@
 #!/usr/bin/env python3 -tt
 import math
+from collections import deque
 
 class Vertex:
     def __init__(self, name="",color="gray",visited=False):
@@ -155,10 +156,10 @@ class SimpleGraph:
         sizesOfAllComponents = []
         while len(verts) > 0:
             v = verts.pop()
-            vertsInComponent = [v]
+            vertsInComponent = deque([v])
             sizeOfCurrComponent = 0
             while len(vertsInComponent) > 0:
-                v = vertsInComponent.pop(0)
+                v = vertsInComponent.popleft()
                 if v in verts:
                     verts.remove(v)
                 sizeOfCurrComponent += 1
