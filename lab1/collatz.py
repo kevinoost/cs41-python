@@ -55,7 +55,7 @@ def get_collatz_length(n_argument):
     return num_steps
 
 def get_max_chain(n):
-    return max([get_collatz_length(x) for x in range(1,n)])
+    return max(get_collatz_length(x) for x in range(1,n))
 
 print(get_max_chain(1000))
 print(get_max_chain(1000000))

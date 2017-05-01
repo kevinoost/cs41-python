@@ -28,13 +28,14 @@ ASCII value of a character
 
 triangle_numbers = [x*(x+1)//2 for x in range(40)]
 
+# Note: assumes character is in [a-zA-Z]
 def get_alphabetical_order(char):
     if 'a' <= char <= 'z':
         return ord(char) - ord('a') + 1
     return ord(char) - ord('A') + 1
 
 def get_word_sum(word):
-    return sum([get_alphabetical_order(char) for char in word])
+    return sum(get_alphabetical_order(char) for char in word)
 
 with open('/usr/share/dict/words', 'r') as f:
     lines = f.readlines()

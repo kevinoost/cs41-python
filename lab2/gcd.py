@@ -7,6 +7,7 @@ Find the greatest common divisor of two numbers (a, b), where a < b
 e.g.:
 
 gcd(10, 25) # => 5
+gcd(25, 10) # => 5
 gcd(14, 15) # => 1
 gcd(3, 9) # => 3
 gcd(1, 1) # => 1

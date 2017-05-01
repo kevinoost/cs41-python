@@ -7,7 +7,11 @@ Problem: Write a program to convert degrees Fahrenheit to degrees Celcius by (1)
 Challenge: Print the final temperature to two decimal places.
 """
 
-fahrenheitTemp = float(input("Temperature F? "))
-celsiusTemp = (fahrenheitTemp - 32.0) * 5/9
-celsiusTemp = round(celsiusTemp, 2)
-print("It is {} degrees Celsius.".format(celsiusTemp))
+def fahreinheitToCelsius():
+    fahrenheitTemp = float(input("Temperature F? "))
+    celsiusTemp = (fahrenheitTemp - 32.0) * 5/9
+    celsiusTemp = round(celsiusTemp, 2)
+    print("It is {} degrees Celsius.".format(celsiusTemp))
+
+if __name__ == '__main__':
+    fahreinheitToCelsius()
