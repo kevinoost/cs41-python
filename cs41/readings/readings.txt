@@ -1,0 +1,17 @@
+schedule / syllabus: https://docs.google.com/document/d/1SLSz75evkrxiPlqF7DO9rN2SEU1jHR5vCiodb4JrRYA/edit
+
+https://docs.python.org/3.4/reference/executionmodel.html
+https://docs.python.org/3.4/reference/datamodel.html
+https://docs.python.org/3.4/tutorial/interpreter.html
+https://www.python.org/dev/peps/pep-0257/
+https://www.python.org/dev/peps/pep-0008/
+https://www.python.org/dev/peps/pep-0020/
+
+on code styling; http://docs.python-guide.org/en/latest/writing/style/
+
+python in one lesson; https://cs.stanford.edu/people/nick/python-in-one-easy-lesson/
+
+
+
+
+
